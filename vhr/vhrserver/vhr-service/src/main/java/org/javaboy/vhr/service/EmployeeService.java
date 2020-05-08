@@ -11,6 +11,9 @@ import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -87,8 +90,14 @@ public class EmployeeService {
         return employeeMapper.updateByPrimaryKeySelective(employee);
     }
 
-    public Integer addEmps(List<Employee> list) {
-        return employeeMapper.addEmps(list);
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = RuntimeException.class)
+    public boolean addEmps(List<Employee> list) {
+            int size = employeeMapper.addEmps(list);
+            if(size ==list.size()){
+                return true;
+            }else{
+                throw new RuntimeException();
+            }
     }
 
     public RespPageBean getEmployeeByPageWithSalary(Integer page, Integer size) {

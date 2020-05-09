@@ -179,6 +179,15 @@
     delete from employee
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+    <delete id="deleteByIds">
+        delete from employee where id in
+        <foreach collection="array" index="index" item="item">
+            open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
     <insert id="addEmps">
         insert into employee (name, gender,
         birthday, idCard, wedlock, nationId,

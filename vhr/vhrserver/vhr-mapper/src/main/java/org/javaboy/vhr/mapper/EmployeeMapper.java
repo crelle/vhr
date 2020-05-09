@@ -9,6 +9,15 @@ import java.util.List;
 public interface EmployeeMapper {
     int deleteByPrimaryKey(Integer id);
 
+    /**
+     * @Description 批量刪除
+     * @Param: [ids]
+     * @Return: int
+     * @Author: crelle
+     * @Date: 2020/5/9 14:14
+     */
+    int deleteByIds(Integer[] ids);
+
     int insert(Employee record);
 
     int insertSelective(Employee record);

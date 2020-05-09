@@ -58,6 +58,21 @@ public class EmpBasicController {
         return RespBean.error("删除失败!");
     }
 
+    /**
+     * @Description 批量刪除用戶
+     * @Param: [ids]
+     * @Return: org.javaboy.vhr.model.RespBean
+     * @Author: crelle
+     * @Date: 2020/5/9 14:49
+     */
+    @DeleteMapping("/{ids}")
+    public RespBean deleteEmpByIds(@PathVariable Integer[] ids){
+        if(employeeService.deleteEmpByIds(ids) ==ids.length){
+            return RespBean.ok("批量刪除成功！");
+        }
+        return RespBean.error("批量刪除失敗！");
+    }
+
     @PutMapping("/")
     public RespBean updateEmp(@RequestBody Employee employee) {
         if (employeeService.updateEmp(employee) == 1) {
